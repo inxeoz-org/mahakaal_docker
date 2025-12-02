@@ -63,7 +63,7 @@ services:
       - logs:/home/frappe/frappe-bench/logs
     environment:
       CLIENT_SITE: frontend
-      APPS_TO_INSTALL: erpnext hrms healthcare payments non_profit agriculture lms mahakaal
+      APPS_TO_INSTALL: erpnext hrms healthcare payments non_profit agriculture
     entrypoint:
       - bash
       - -c
