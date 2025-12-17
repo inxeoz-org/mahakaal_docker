@@ -31,6 +31,8 @@ To include custom apps in your image, create an `apps.json` file in the reposito
 
 # Run the setup
 
+## Option 1: Build from Source
+
 Use the provided `run.sh` script to build and run the containers. It handles the base64 encoding, building, and starting the services.
 
 ```bash
@@ -74,7 +76,27 @@ docker compose -f pwd.yml build
 docker compose -f pwd.yml up -d
 ```
 
-# CACHE_BUSH
+## Option 2: Use a Pre-built Image
+
+If you have a pre-built image (e.g., from Docker Hub), create a compose file like `docker_pwd.yml` with the backend using your image:
+
+```yaml
+backend:
+  restart: always
+  image: your-dockerhub-username/your-repo-name:v1.0
+```
+
+Then run:
+
+```bash
+export APPS_TO_INSTALL="your_app_names"
+export FRONTEND_PORT=8000
+docker compose -f docker_pwd.yml up -d
+```
+
+Wait 5-10 minutes for initialization, then access at http://localhost:8000.
+
+# CACHE_BUST
 
 ```bash
 CACHE_BUST=$(date +%s) docker compose -f pwd.yml build backend
