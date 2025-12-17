@@ -16,76 +16,87 @@ cd frappe_docker
 
 # Define custom apps
 
-If you dont want to install specific apps to the image skip this section.
+If you don't want to install specific apps, skip this section.
 
-To include custom apps in your image, create an `apps.json` file in the repository root:
+To include custom apps in your image, create an `apps.json` file in the repository root (see examples like `apps_mahakaal.json` or `apps_mapit.json`):
 
 ```json
 [
-
   {
     "url": "https://github.com/inxeoz/mahakaal_darshan",
     "branch": "develop"
   }
-
 ]
 ```
 
-Then generate a base64-encoded string from this file:
+# Run the setup
+
+## Option 1: Build from Source
+
+Use the provided `run.sh` script to build and run the containers. It handles the base64 encoding, building, and starting the services.
+
+```bash
+./run.sh <apps_json_file> <apps_to_install> [port]
+```
+
+- `<apps_json_file>`: Path to your apps.json file (e.g., `apps_mahakaal.json`)
+- `<apps_to_install>`: Space-separated list of app names to install (e.g., "mahakaal" or "erpnext hrms mahakaal")
+- `[port]`: Optional frontend port (default: 8080)
+
+Examples:
+
+```bash
+# For mahakaal setup
+./run.sh apps_mahakaal.json "mahakaal" 8890
+
+# For mapit setup
+./run.sh apps_mapit.json "erpnext hrms healthcare payments non_profit agriculture lms mahakaal" 8881
+
+# Custom setup
+./run.sh my_apps.json "my_app" 9000
+```
+
+The script will:
+- Stop and remove existing containers
+- Build the image with your apps
+- Start the services
+- Display the URL to access the application
+
+### Windows
+
+Use Git Bash or WSL to run the script, as it uses bash syntax.
+
+Alternatively, manually set variables and run compose:
 
 ```bash
 export APPS_JSON_BASE64=$(base64 -w 0 apps.json)
-```
-### windows
-
-```
-$env:APPS_JSON_BASE64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $PWD "apps.json")))
-```
-
-### verify
-
-```
- echo $APPS_JSON_BASE64
-```
-# Build the image
-`Docker`:
-
-```bash
+export APPS_TO_INSTALL="your apps here"
+export FRONTEND_PORT=8080
 docker compose -f pwd.yml build
-```
-
-`Podman`:
-
-```bash
-podman build \
- --build-arg=FRAPPE_PATH=https://github.com/frappe/frappe \
- --build-arg=FRAPPE_BRANCH=version-15 \
- --build-arg=APPS_JSON_BASE64=$APPS_JSON_BASE64 \
- --tag=custom:15 \
- --file=images/layered/Containerfile .
-```
-# Run container 
-
-```bash
 docker compose -f pwd.yml up -d
 ```
 
-```bash
- FRONTEND_PORT=8890 docker compose -f pwd.yml up -d
-```
-or
-```bash
- FRONTEND_PORT=8890 docker compose  --project-name mahakaal -f pwd.yml up -d
-```
+## Option 2: Use a Pre-built Image
 
-### windows
+If you have a pre-built image (e.g., from Docker Hub), create a compose file like `docker_pwd.yml` with the backend using your image:
 
-```bash
-$env:FRONTEND_PORT = "8080"
-docker compose  -f pwd.yml up -d
+```yaml
+backend:
+  restart: always
+  image: your-dockerhub-username/your-repo-name:v1.0
 ```
 
-# CACHE_BUSH
+Then run:
+
+```bash
+export APPS_TO_INSTALL="your_app_names"
+export FRONTEND_PORT=8000
+docker compose -f docker_pwd.yml up -d
+```
+
+Wait 5-10 minutes for initialization, then access at http://localhost:8000.
+
+# CACHE_BUST
 
 ```bash
 CACHE_BUST=$(date +%s) docker compose -f pwd.yml build backend

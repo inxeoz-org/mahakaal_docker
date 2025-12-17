@@ -1,15 +1,7 @@
 services:
   backend:
     restart: always
-    build:
-      context: .
-      dockerfile: images/layered/Containerfile
-      args:
-        FRAPPE_PATH: https://github.com/frappe/frappe
-        FRAPPE_BRANCH: version-15
-        APPS_JSON_BASE64: ${APPS_JSON_BASE64}
-        CACHE_BUST: ${CACHE_BUST:-1}
-    image: frappe/base
+    image: inxeoz/frappe_docker_gen:v1.0
     networks:
       - frappe_network
     depends_on:
@@ -62,8 +54,8 @@ services:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
     environment:
-      CLIENT_SITE: frontend
-      APPS_TO_INSTALL: erpnext hrms healthcare payments non_profit agriculture lms mahakaal
+       CLIENT_SITE: frontend
+       APPS_TO_INSTALL: "${APPS_TO_INSTALL}"
     entrypoint:
       - bash
       - -c
@@ -91,7 +83,6 @@ services:
         done;
         bench set-config allow_cors '*';
         bench set-config developer_mode 1;
-        bench set-config -g server_script_enabled 1;
         bench --site $${CLIENT_SITE} migrate;
 
   db:

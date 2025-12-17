@@ -1,15 +1,7 @@
 services:
   backend:
     restart: always
-    build:
-      context: .
-      dockerfile: images/layered/Containerfile
-      args:
-        FRAPPE_PATH: https://github.com/frappe/frappe
-        FRAPPE_BRANCH: version-15
-        APPS_JSON_BASE64: ${APPS_JSON_BASE64}
-        CACHE_BUST: ${CACHE_BUST:-1}
-    image: frappe/base
+    image: inxeoz/custom_and_mahakaal:latest
     networks:
       - frappe_network
     depends_on:
@@ -63,7 +55,7 @@ services:
       - logs:/home/frappe/frappe-bench/logs
     environment:
       CLIENT_SITE: frontend
-      APPS_TO_INSTALL: mahakaal
+      APPS_TO_INSTALL: "${APPS_TO_INSTALL}"
     entrypoint:
       - bash
       - -c
