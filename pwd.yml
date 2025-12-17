@@ -62,8 +62,8 @@ services:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
     environment:
-      CLIENT_SITE: frontend
-      APPS_TO_INSTALL: mahakaal
+       CLIENT_SITE: frontend
+       APPS_TO_INSTALL: "${APPS_TO_INSTALL}"
     entrypoint:
       - bash
       - -c
