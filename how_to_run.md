@@ -114,3 +114,12 @@ docker compose -f pwd.yml build --build-arg CACHE_BUST=$env:CACHE_BUST
 
 > --no-cache
 > CACHE_BUST
+
+
+
+
+
+
+
+prepare-user-fixtures
+export-prepared-fixtures
