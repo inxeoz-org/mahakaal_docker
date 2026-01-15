@@ -1,7 +1,11 @@
 services:
   backend:
+<<<<<<< HEAD:custom/docker_pwd.yml
     restart: always
     image: inxeoz/frappe_docker_gen:v1.0
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     depends_on:
@@ -21,7 +25,11 @@ services:
       MARIADB_ROOT_PASSWORD: admin
 
   configurator:
+<<<<<<< HEAD:custom/docker_pwd.yml
     image: frappe/base
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     entrypoint:
@@ -47,7 +55,11 @@ services:
       - logs:/home/frappe/frappe-bench/logs
 
   create-site:
+<<<<<<< HEAD:custom/docker_pwd.yml
     image: frappe/base
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     volumes:
@@ -131,8 +143,12 @@ services:
       - redis-queue-data:/data
 
   frontend:
+<<<<<<< HEAD:custom/docker_pwd.yml
     restart: always
     image: frappe/base
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     depends_on:
@@ -158,8 +174,12 @@ services:
       - "${FRONTEND_PORT:-8080}:8080"
 
   queue-long:
+<<<<<<< HEAD:custom/docker_pwd.yml
     restart: always
     image: frappe/base
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     depends_on:
@@ -180,8 +200,12 @@ services:
       FRAPPE_REDIS_QUEUE: redis://redis-queue:6379
 
   queue-short:
+<<<<<<< HEAD:custom/docker_pwd.yml
     restart: always
     image: frappe/base
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     depends_on:
@@ -202,8 +226,12 @@ services:
       FRAPPE_REDIS_QUEUE: redis://redis-queue:6379
 
   scheduler:
+<<<<<<< HEAD:custom/docker_pwd.yml
     restart: always
     image: frappe/base
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     depends_on:
@@ -219,8 +247,12 @@ services:
       - logs:/home/frappe/frappe-bench/logs
 
   websocket:
+<<<<<<< HEAD:custom/docker_pwd.yml
     restart: always
     image: frappe/base
+=======
+    image: frappe/erpnext:v15.94.3
+>>>>>>> genesis/main:pwd.yml
     networks:
       - frappe_network
     depends_on:
